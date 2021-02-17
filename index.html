@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Document</title>
+    </head>
+    <body>
+        <div>
+            기본연봉:
+            <input
+                id="annu_sala"
+                type="text"
+                value="70000000"
+                onkeyup="changeMontSala()"
+                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+            />
+        </div>
+        <br />
+        <div>
+            기본급: &nbsp;&nbsp;&nbsp;<input
+                id="mont_sala"
+                type="text"
+                value=""
+                onkeyup="changeAnnuSala()"
+                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+            />
+        </div>
+        <br />
+        <div>
+            퍼센트:&nbsp;&nbsp;&nbsp;
+            <select id="sala_perc" onChange="changeAnnuMontSala()">
+                <option selected disabled>zero</option>
+                <option value="0.05">5%</option>
+                <option value="0.1">10%</option>
+                <option value="0.15">15%</option>
+            </select>
+        </div>
+        <!--   <div>
+    <input type="text" value="" id="test">
+  </div> -->
+    </body>
+    <script>
+        // 기본연봉, 기본급, 퍼센터 선택값을 변수에 담는다
+        var annu_sala = Number(document.getElementById('annu_sala').value);
+        var mont_sala = Math.round(Number(annu_sala / 12));
+
+        // 기본급에 기본연봉을 12로 나눈 값을 세팅한다
+        document.getElementById('mont_sala').value = mont_sala;
+
+        // 기본연봉 값 바꿀때마다 기본급 값 자동으로 변경되도록하는 메소드
+        function changeMontSala() {
+            annu_sala = document.getElementById('annu_sala').value;
+            mont_sala = annu_sala / 12;
+            document.getElementById('mont_sala').value = Math.round(mont_sala);
+            document.getElementById('sala_perc').value = 'zero';
+        }
+        // 위 메소드의 반대 메소드
+        function changeAnnuSala() {
+            mont_sala = document.getElementById('mont_sala').value;
+            annu_sala = mont_sala * 12;
+            document.getElementById('annu_sala').value = annu_sala;
+            document.getElementById('sala_perc').value = 'zero';
+        }
+        // "%" 선택된 값에 따라 기본연봉, 기본급 값 변경하는 메소드
+        function changeAnnuMontSala() {
+            annu_sala = Number(document.getElementById('annu_sala').value);
+            mont_sala = Number(annu_sala / 12);
+            var sala_perc = Number(document.getElementById('sala_perc').value);
+            var changedAnnuSalaByPerc = annu_sala * sala_perc + annu_sala;
+            document.getElementById('annu_sala').value = changedAnnuSalaByPerc;
+            document.getElementById('mont_sala').value = Math.round(
+                changedAnnuSalaByPerc / 12
+            );
+        }
+    </script>
+</html>
